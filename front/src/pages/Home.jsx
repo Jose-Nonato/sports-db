@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Select } from 'antd'
 import { api } from '../api/api.jsx'
+import { Link } from 'react-router-dom'
 
 
 export default function Home() {
@@ -22,7 +22,6 @@ export default function Home() {
         fetchCountries()
     }, [])
 
-    console.log(typeof countries)
     if (loading) return <div><p>Carregando ...</p></div>
     if (error) return <div><p>Erro: {error}</p></div>
 
@@ -37,6 +36,11 @@ export default function Home() {
                             alt={`Bandeira da ${country.name_en}`}
                         />
                         <p>{country.name_en}</p>
+                        <Link
+                            to={`/leagues/${encodeURIComponent(country.name_en)}`}
+                        >
+                            Mais Detalhes +
+                        </Link>
                     </div>
                 ))}
             </div>

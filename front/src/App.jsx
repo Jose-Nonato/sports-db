@@ -1,11 +1,8 @@
-// import { useState } from 'react'
-import Home from "./pages/Home"
+import Routers from './routes'
 
 function App() {
   return (
-  <>
-    <Home/>
-  </>
+    <Routers/>
   )
 }
 
