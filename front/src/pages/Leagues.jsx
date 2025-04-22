@@ -40,12 +40,12 @@ export default function Leagues() {
                     />
                     <p>
                         <Link
-                            to={`/teams/${league.idAPIfootball}`}
+                            to={`/teams/${league.strLeague}`}
                         >
                             Times da Liga
                         </Link>
                     </p>
-                    <p>{league.strLeague} - {league.strLeagueAlternate}</p>
+                    <p>{league.strLeague}</p>
                     <p>Ano de Criação: {league.intFormedYear}</p>
                     <p>Temporada atual: {league.strCurrentSeason}</p>
                     <p>{league.strSport} - {league.strGender}</p>
@@ -53,7 +53,7 @@ export default function Leagues() {
                     <a href={`http://${league.strInstagram}`} target="_blank" rel="noopener noreferrer">Instagram da Liga</a>
                     <a href={`http://${league.strTwitter}`} target="_blank" rel="noopener noreferrer">Twitter da Liga</a>
                     <a href={`http://${league.strWebsite}`} target="_blank" rel="noopener noreferrer">Website da Liga</a>
-                    <a href={league.strYoutube} target="_blank" rel="noopener noreferrer">YouTube da Liga</a>
+                    <a href={`http://${league.strYoutube}`} target="_blank" rel="noopener noreferrer">YouTube da Liga</a>
                     <p>{league.strDescriptionEN}</p>
                     <img
                         src={league.strFanart1}

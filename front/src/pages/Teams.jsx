@@ -13,7 +13,7 @@ export default function Teams() {
     useEffect(() => {
         const fetchTeams = async () => {
             try {
-                const response = await api.get(`/lookup_all_teams.php?id=${id}`)
+                const response = await api.get(`/search_all_teams.php?l=${encodeURIComponent(id)}`)
                 setTeams(response.data.teams)
             } catch (err) {
                 setError(err)
@@ -24,7 +24,6 @@ export default function Teams() {
         fetchTeams()
     }, [])
 
-    console.log(teams)
     if (loading) return <div><p>Carregando ...</p></div>
     if (error) return <div><p>Erro no fetchTeams: {error}</p></div>
 
@@ -43,15 +42,28 @@ export default function Teams() {
                         src={team.strBadge}
                         alt={`Bandeira do time ${team.strBadge}`}
                     />
-                    <img
-                        src={team.strBanner}
-                        alt={`Banner do time ${team.strBanner}`}
-                    />
                     <a href={`http://${team.strFacebook}`} target="_blank" rel="noopener noreferrer">Facebook do Time</a>
                     <a href={`http://${team.strInstagram}`} target="_blank" rel="noopener noreferrer">Instagram do Time</a>
                     <a href={`http://${team.strTwitter}`} target="_blank" rel="noopener noreferrer">Twitter do Time</a>
                     <a href={`http://${team.strWebsite}`} target="_blank" rel="noopener noreferrer">Website do Time</a>
                     <a href={`http://${team.strYoutube}`} target="_blank" rel="noopener noreferrer">YouTube do Time</a>
+                    <p>{team.strDescriptionEN}</p>
+                    <img
+                        src={team.strFanart1}
+                        alt={`fanArt1`}
+                    />
+                    <img
+                        src={team.strFanart2}
+                        alt={`fanArt2`}
+                    />
+                    <img
+                        src={team.strFanart3}
+                        alt={`fanArt3`}
+                    />
+                    <img
+                        src={team.strFanart4}
+                        alt={`fanArt4`}
+                    />
                 </div>
             ))}
         </div>
