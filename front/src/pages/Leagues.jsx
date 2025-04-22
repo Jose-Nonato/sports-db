@@ -50,10 +50,10 @@ export default function Leagues() {
                     <p>Temporada atual: {league.strCurrentSeason}</p>
                     <p>{league.strSport} - {league.strGender}</p>
                     <a href={`http://${league.strFacebook}`} target="_blank" rel="noopener noreferrer">Facebook da Liga</a>
-                    <a href={`http://${league.strInstagram}`}>Instagram da Liga</a>
-                    <a href={`http://${league.strTwitter}`}>Twitter da Liga</a>
-                    <a href={`http://${league.strWebsite}`}>Website da Liga</a>
-                    <a href={league.strYoutube}>YouTube da Liga</a>
+                    <a href={`http://${league.strInstagram}`} target="_blank" rel="noopener noreferrer">Instagram da Liga</a>
+                    <a href={`http://${league.strTwitter}`} target="_blank" rel="noopener noreferrer">Twitter da Liga</a>
+                    <a href={`http://${league.strWebsite}`} target="_blank" rel="noopener noreferrer">Website da Liga</a>
+                    <a href={league.strYoutube} target="_blank" rel="noopener noreferrer">YouTube da Liga</a>
                     <p>{league.strDescriptionEN}</p>
                     <img
                         src={league.strFanart1}

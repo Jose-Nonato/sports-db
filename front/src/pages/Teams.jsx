@@ -1,11 +1,59 @@
 import { useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+
+import { api } from "../api/api"
+
 
 export default function Teams() {
     const { id } = useParams()
+    const [ teams, setTeams ] = useState([])
+    const [ loading, setLoading ] = useState(true)
+    const [ error, setError ] = useState(null)
+
+    useEffect(() => {
+        const fetchTeams = async () => {
+            try {
+                const response = await api.get(`/lookup_all_teams.php?id=${id}`)
+                setTeams(response.data.teams)
+            } catch (err) {
+                setError(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchTeams()
+    }, [])
+
+    console.log(teams)
+    if (loading) return <div><p>Carregando ...</p></div>
+    if (error) return <div><p>Erro no fetchTeams: {error}</p></div>
+
     return(
         <div>
             <h1>Times da liga</h1>
             <p>ID da liga: {id}</p>
+            {teams.map((team) => (
+                <div key={team.idTeam}>
+                    <p>{team.strTeamAlternate} ({team.strTeamShort})</p>
+                    <p>Ano de Criação: {team.intFormedYear}</p>
+                    <p>Estádio: {team.strStadium} - {team.strLocation}</p>
+                    <p>Capacidade: {team.intStadiumCapacity}</p>
+                    <p>{team.strSport} - {team.strGender}</p>
+                    <img
+                        src={team.strBadge}
+                        alt={`Bandeira do time ${team.strBadge}`}
+                    />
+                    <img
+                        src={team.strBanner}
+                        alt={`Banner do time ${team.strBanner}`}
+                    />
+                    <a href={`http://${team.strFacebook}`} target="_blank" rel="noopener noreferrer">Facebook do Time</a>
+                    <a href={`http://${team.strInstagram}`} target="_blank" rel="noopener noreferrer">Instagram do Time</a>
+                    <a href={`http://${team.strTwitter}`} target="_blank" rel="noopener noreferrer">Twitter do Time</a>
+                    <a href={`http://${team.strWebsite}`} target="_blank" rel="noopener noreferrer">Website do Time</a>
+                    <a href={`http://${team.strYoutube}`} target="_blank" rel="noopener noreferrer">YouTube do Time</a>
+                </div>
+            ))}
         </div>
     )
 }
