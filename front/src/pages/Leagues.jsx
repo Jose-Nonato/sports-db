@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams } from "react-router-dom"
+import { Flex, Typography, Tooltip, Button } from "antd"
+import { ArrowLeftOutlined } from "@ant-design/icons"
 
 import { api } from "../api/api"
+import MainHeader from "../components/Header"
+import SocialLinks from "../components/SocialLinks"
+import CarouselImage from "../components/Carousel"
 
 
+const { Text, Link } = Typography
 export default function Leagues() {
     const { id } = useParams()
     const encodedID = encodeURIComponent(id)
@@ -29,50 +35,47 @@ export default function Leagues() {
     if (error) return <div><p>Erro fetchLeagues: {error}</p></div>
 
     return(
-        <div>
-            <h1>Ligas</h1>
-            <p>Nome do país: {id}</p>
+        <>
+            <MainHeader/>
+            <Flex justify="center" align="center" style={{width: '50%', margin: 'auto'}}>
+                <Tooltip title='Voltar'>
+                    <a href="/">
+                        <Button icon={<ArrowLeftOutlined />}/>
+                    </a>
+                </Tooltip>
+                <Typography.Title level={2} style={{margin: '0px', paddingLeft: '10px'}}>Ligas do {id}</Typography.Title>
+            </Flex>
             {leagues.map((league) => (
-                <div key={league.idLeague}>
-                    <img
-                        src={league.strBadge}
-                        alt={`Bandeira da liga ${league.strLeague}`}
-                    />
-                    <p>
-                        <Link
-                            to={`/teams/${league.strLeague}`}
-                        >
-                            Times da Liga
-                        </Link>
-                    </p>
-                    <p>{league.strLeague}</p>
-                    <p>Ano de Criação: {league.intFormedYear}</p>
-                    <p>Temporada atual: {league.strCurrentSeason}</p>
-                    <p>{league.strSport} - {league.strGender}</p>
-                    <a href={`http://${league.strFacebook}`} target="_blank" rel="noopener noreferrer">Facebook da Liga</a>
-                    <a href={`http://${league.strInstagram}`} target="_blank" rel="noopener noreferrer">Instagram da Liga</a>
-                    <a href={`http://${league.strTwitter}`} target="_blank" rel="noopener noreferrer">Twitter da Liga</a>
-                    <a href={`http://${league.strWebsite}`} target="_blank" rel="noopener noreferrer">Website da Liga</a>
-                    <a href={`http://${league.strYoutube}`} target="_blank" rel="noopener noreferrer">YouTube da Liga</a>
-                    <p>{league.strDescriptionEN}</p>
-                    <img
-                        src={league.strFanart1}
-                        alt={`fanArt1`}
-                    />
-                    <img
-                        src={league.strFanart2}
-                        alt={`fanArt2`}
-                    />
-                    <img
-                        src={league.strFanart3}
-                        alt={`fanArt3`}
-                    />
-                    <img
-                        src={league.strFanart4}
-                        alt={`fanArt4`}
-                    />
+                <div key={league.idLeague} style={{margin: '50px 0px'}}>
+                    <Flex gap="middle" justify="center" align="center">
+                        <img
+                            src={league.strBadge}
+                            alt={`Bandeira da liga ${league.strLeague}`}
+                            width='5%'
+                        />
+                        <div>
+                            <p>
+                                <Link
+                                    to={`/teams/${league.strLeague}`}
+                                >
+                                    Times da Liga
+                                </Link>
+                            </p>
+                            <Typography.Title level={3}>{league.strLeague}</Typography.Title>
+                        </div>
+                    </Flex>
+                    <Flex align="center" justify="space-evenly" style={{width: '50%', margin: 'auto', padding: '10px 0px'}}>
+                        <Text strong>Ano de Criação: {league.intFormedYear}</Text>
+                        <Text strong>Temporada atual: {league.strCurrentSeason}</Text>
+                        <Text strong>{league.strSport} - {league.strGender}</Text>
+                    </Flex>
+                    <SocialLinks league={league} />
+                    <Typography.Paragraph copyable style={{width: '80%', margin: 'auto', padding: '10px 0px', align: 'justify', textIndent: '30px'}}>
+                        {league.strDescriptionEN}
+                    </Typography.Paragraph>
+                    <CarouselImage league={league} />
                 </div>
             ))}
-        </div>
+        </>
     )
 }

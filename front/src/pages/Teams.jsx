@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 
 import { api } from "../api/api"
+import MainHeader from "../components/Header.jsx"
 
 
 export default function Teams() {
@@ -29,6 +30,7 @@ export default function Teams() {
 
     return(
         <div>
+            <MainHeader/>
             <h1>Times da liga</h1>
             <p>ID da liga: {id}</p>
             {teams.map((team) => (
