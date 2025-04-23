@@ -1,8 +1,13 @@
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { Flex, Typography, Tooltip, Button } from "antd"
+import { useNavigate } from "react-router-dom"
+import { ArrowLeftOutlined } from "@ant-design/icons"
 
 import { api } from "../api/api"
 import MainHeader from "../components/Header.jsx"
+import CarouselImage from "../components/Carousel.jsx"
+import SocialLinks from "../components/SocialLinks.jsx"
 
 
 export default function Teams() {
@@ -10,6 +15,8 @@ export default function Teams() {
     const [ teams, setTeams ] = useState([])
     const [ loading, setLoading ] = useState(true)
     const [ error, setError ] = useState(null)
+    const { Text, Link } = Typography
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchTeams = async () => {
@@ -29,45 +36,43 @@ export default function Teams() {
     if (error) return <div><p>Erro no fetchTeams: {error}</p></div>
 
     return(
-        <div>
+        <>
             <MainHeader/>
-            <h1>Times da liga</h1>
-            <p>ID da liga: {id}</p>
+            <Flex justify="center" align="center" style={{width: '50%', margin: 'auto'}}>
+                <Tooltip title='Voltar'>
+                    <Button
+                        icon={<ArrowLeftOutlined />}
+                        onClick={() => navigate(-1)}
+                    />
+                </Tooltip>
+                <Typography.Title level={2} style={{margin: '0px', paddingLeft: '10px'}}>Times da liga - {id}</Typography.Title>
+            </Flex>
             {teams.map((team) => (
-                <div key={team.idTeam}>
-                    <p>{team.strTeamAlternate} ({team.strTeamShort})</p>
-                    <p>Ano de Criação: {team.intFormedYear}</p>
-                    <p>Estádio: {team.strStadium} - {team.strLocation}</p>
-                    <p>Capacidade: {team.intStadiumCapacity}</p>
-                    <p>{team.strSport} - {team.strGender}</p>
-                    <img
-                        src={team.strBadge}
-                        alt={`Bandeira do time ${team.strBadge}`}
-                    />
-                    <a href={`http://${team.strFacebook}`} target="_blank" rel="noopener noreferrer">Facebook do Time</a>
-                    <a href={`http://${team.strInstagram}`} target="_blank" rel="noopener noreferrer">Instagram do Time</a>
-                    <a href={`http://${team.strTwitter}`} target="_blank" rel="noopener noreferrer">Twitter do Time</a>
-                    <a href={`http://${team.strWebsite}`} target="_blank" rel="noopener noreferrer">Website do Time</a>
-                    <a href={`http://${team.strYoutube}`} target="_blank" rel="noopener noreferrer">YouTube do Time</a>
-                    <p>{team.strDescriptionEN}</p>
-                    <img
-                        src={team.strFanart1}
-                        alt={`fanArt1`}
-                    />
-                    <img
-                        src={team.strFanart2}
-                        alt={`fanArt2`}
-                    />
-                    <img
-                        src={team.strFanart3}
-                        alt={`fanArt3`}
-                    />
-                    <img
-                        src={team.strFanart4}
-                        alt={`fanArt4`}
-                    />
+                <div key={team.idTeam} style={{margin: '50px 0px'}}>
+                    <Flex gap="middle" justify="center" align="center">
+                        <img
+                            src={team.strBadge}
+                            alt={`Bandeira do time ${team.strBadge}`}
+                            width='5%'
+                        />
+                        <div>
+                            <Typography.Title level={3}>{team.strTeamAlternate}</Typography.Title>
+                            <Typography>{team.strTeamShort}</Typography>
+                        </div>
+                    </Flex>
+                    <Flex align="center" justify="space-evenly" style={{width: '50%', margin: 'auto', padding: '15px 0px'}}>
+                        <Text strong>Ano de Criação: {team.intFormedYear}</Text>
+                        <Text strong>Estádio: {team.strStadium} - {team.strLocation}</Text>
+                        <Text strong>Capacidade: {team.intStadiumCapacity}</Text>
+                        <Text strong>{team.strSport} - {team.strGender}</Text>
+                    </Flex>
+                    <SocialLinks league={team}/>
+                    <Typography.Paragraph copyable style={{width: '80%', margin: 'auto', padding: '10px 0px', align: 'justify', textIndent: '30px'}}>
+                        {team.strDescriptionEN}
+                    </Typography.Paragraph>
+                    <CarouselImage league={team}/>
                 </div>
             ))}
-        </div>
+        </>
     )
 }

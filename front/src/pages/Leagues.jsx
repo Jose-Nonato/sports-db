@@ -56,7 +56,7 @@ export default function Leagues() {
                         <div>
                             <p>
                                 <Link
-                                    to={`/teams/${league.strLeague}`}
+                                    href={`/teams/${league.strLeague}`}
                                 >
                                     Times da Liga
                                 </Link>
